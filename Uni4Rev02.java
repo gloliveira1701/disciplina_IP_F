@@ -1,85 +1,52 @@
+/*
+//__ Entradas: 
+ler(limite)
+ler(velocidadeVeiculo)
+
+//__ Processos: 
+Calcular percentual de excesso
+Verificar faixa da multa (20%, 50%, acima)
+
+//__ Saídas: 
+imprimir(situacao, excesso, valorMulta)
+*/
+
 import java.util.Scanner;
 
 public class Uni4Rev02 {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
 
-        // #region Entrada
-        System.out.println("Informe a velocidade permitida: ");
+        System.out.print("Velocidade permitida: ");
         double limite = teclado.nextDouble();
+        System.out.print("Velocidade do veículo: ");
+        double vel = teclado.nextDouble();
 
-        System.out.println("Informe a velocidade do veículo: ");
-        double velocidade = teclado.nextDouble();
-        // #endregion
-
-        // #region Processo
-
-        double excesso = velocidade - limite;
-        double percentual = 0;
-
-        if (velocidade > limite) {
-            percentual = (excesso / limite) * 100;
-        }
-
-        String situacao;
-        double multa = 0;
-
-        /*
-         * Classificação:
-         * - <= limite → sem multa
-         * - até 20% → leve
-         * - até 50% → grave
-         * - acima → gravíssima
-         */
-
-        if (velocidade <= limite) {
-            situacao = "Sem multa";
-
-        } else if (percentual <= 20) {
-            situacao = "Multa leve";
-            multa = 130;
-
-        } else if (percentual <= 50) {
-            situacao = "Multa grave";
-            multa = 195;
-
+        if (vel <= limite) {
+            System.out.println("Situação: Sem multa | Excesso: 0% | Multa: R$ 0");
         } else {
-            situacao = "Multa gravíssima (CNH suspensa)";
-            multa = 880;
+            double excessoPerc = ((vel - limite) / limite) * 100;
+
+            if (excessoPerc <= 20) {
+                System.out.println("Situação: Multa Leve | Excesso: " + excessoPerc + "% | Multa: R$ 130");
+            } else if (excessoPerc <= 50) {
+                System.out.println("Situação: Multa Grave | Excesso: " + excessoPerc + "% | Multa: R$ 195");
+            } else {
+                System.out.println("Situação: Multa Gravíssima (CNH Suspensa) | Excesso: " + excessoPerc + "% | Multa: R$ 880");
+            }
         }
-
-        // #endregion
-
-        // #region Saída
-        System.out.println("Situação: " + situacao);
-        System.out.println("Percentual de excesso: " + percentual + "%");
-        System.out.println("Valor da multa: R$ " + multa);
-        // #endregion
-
         teclado.close();
     }
 }
 
 /*
- * ========================
- * CASOS DE TESTE
- * 
- * Caso 1:
- * limite = 60, velocidade = 60
- * → sem multa
- * 
- * Caso 2:
- * velocidade = 72
- * excesso = 12 → 20%
- * → multa leve (130)
- * 
- * Caso 3:
- * velocidade = 100
- * excesso = 40 → 66%
- * → multa gravíssima (880)
- * 
- * Caso 4:
- * velocidade = 80
- * excesso = 20 → 33%
- * → multa grave (195)
- */
+__ Valores de Testes: 
+_ Caso 1 ___
+Limite: 60 | Vel: 60 -> Sem multa
+
+_ Caso 2 ___
+Limite: 60 | Vel: 72 -> (72-60)/60 = 20% -> Multa Leve (130)
+
+_ Caso 3 ___
+Limite: 60 | Vel: 100 -> (100-60)/60 = 66.6% -> Multa Grave (195)
+*/
